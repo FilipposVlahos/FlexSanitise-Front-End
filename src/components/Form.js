@@ -6,13 +6,14 @@ const RESULT = "result";
 
 function Form (props) {
     const [text, setText] = useState("");
-    const [questions, setQuestions] = useState("");
+    const [questions, setQuestions] = useState([]);
 
     async function handleSubmit() {
         props.setPage(LOADING);
-        sanitise(text, questions)
+        sanitise(text, [questions])
             .then(function (response) {
-                props.setResponse(response);
+                props.setResponse(response.data.sanitisedDocument);
+                console.log(response.data.sanitisedDocument)
                 props.setPage(RESULT);
             })
             .catch(function (error) {
@@ -29,23 +30,24 @@ function Form (props) {
             });
     }
 
-
     return(
     <form onSubmit={handleSubmit}>
         <label>
             Document:
-            <input
-                type="text"
-                value={text}
-                onChange={e => setText(e.target.value)}
-            />
-            Questions:
-            <input
-                type="text"
-                value={questions}
-                onChange={e => setQuestions(e.target.value)}
-            />
         </label>
+        <input
+            type="text"
+            value={text}
+            onChange={e => setText(e.target.value)}
+        />
+        <label>
+            Questions:
+        </label>
+        <input
+            type="text"
+            value={questions}
+            onChange={e => setQuestions(e.target.value)}
+        />
         <input type="submit" value="Submit" />
     </form>    
     );

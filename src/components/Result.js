@@ -4,7 +4,7 @@ function Result(props) {
     if (props.response) {
         return(
             <>
-                {props.response.data}
+                {props.response}
             </>
         )
     } else if (props.error) {

@@ -19,7 +19,6 @@ const Container = () => {
         case FORM:
             view = <Form setPage={setPage} setResponse={setResponse} setError={setError} />
             break;
-
         case RESULT:
             view = <Result response={response} error={error} />
             break;

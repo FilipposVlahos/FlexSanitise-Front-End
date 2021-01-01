@@ -7,9 +7,9 @@ function App() {
       <header className="App-header">
         <h1>
           Document Sanitiser
-          <Container />
         </h1>
       </header>
+      <Container />
     </div>
   );
 }
