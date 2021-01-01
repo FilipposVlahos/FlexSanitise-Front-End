@@ -19,14 +19,15 @@ function Form (props) {
             .catch(function (error) {
                 if (error.response) {
                     console.log(error.response.status);
-                    console.log(error.response.headers);
+                    props.setError(error.response.status);
                 } else if (error.request) {
                     console.log(error.request);
+                    props.setError(error.request);
                 } else {
                     console.log('Error', error.message);
+                    props.setError(error.message);
                 }
-                props.setError(error);
-                props.setPage(RESULT)
+                props.setPage(RESULT);
             });
     }
 

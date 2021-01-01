@@ -11,12 +11,7 @@ function Result(props) {
         return(
             <>
                 Error!
-                {props.error.response ? props.error.response.status : ""}
-                {props.error.response ? props.error.response.headers : ""}
-
-                {props.error.request ? props.error.request : ""}
-
-                {props.error.message ? props.error.message : ""}
+                {props.error}
             </>
         )
     }
