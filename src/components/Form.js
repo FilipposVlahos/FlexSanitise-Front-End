@@ -49,6 +49,7 @@ function Form (props) {
             value={questions}
             onChange={e => setQuestions(e.target.value)}
         />
+        <br /><br />
         <input type="submit" value="Submit" />
     </form>    
     );

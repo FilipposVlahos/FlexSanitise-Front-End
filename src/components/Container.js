@@ -20,17 +20,20 @@ const Container = () => {
             view = <Form setPage={setPage} setResponse={setResponse} setError={setError} />
             break;
         case RESULT:
-            view = <Result response={response} error={error} />
+            view = <Result response={response} error={error} setPage={setPage} />
             break;
         case LOADING:
-            view = <BoxLoading />;
+            view = <BoxLoading size="large"/>;
             break;
         default:
             view = "This should not have happened"
     }
 
     return(
-        <>{view}</>
+        <>
+            <br />
+            {view}
+        </>
     );
 }
 
