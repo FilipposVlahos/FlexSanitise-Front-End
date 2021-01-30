@@ -9,7 +9,9 @@ function App() {
           Document Sanitiser
         </h1>
       </header>
-      <Container />
+      <div className="body">
+        <Container />
+      </div>
     </div>
   );
 }
