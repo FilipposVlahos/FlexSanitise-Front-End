@@ -1,6 +1,5 @@
 import React from "react";
-import { Button } from 'reactstrap';
-
+import { Alert, Button, InputGroup, FormControl } from 'react-bootstrap';
 
 const FORM = "form";
 
@@ -8,28 +7,31 @@ function Result(props) {
     let result;
     if (props.response) {
         result = 
-        <>
-            {props.response}
-        </>;
+        <InputGroup>
+            <InputGroup.Prepend>
+                </InputGroup.Prepend>
+                <FormControl as="textarea" aria-label="With textarea" 
+                defaultValue={props.response}
+                rows={21}/>
+        </InputGroup>;
+        
     } else if (props.error) {
         result =  
-        <>
-            Error!
-            {props.error}
-        </>;
+        <Alert variant="danger" >
+            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+            <p>
+                Error code: {props.error}
+            </p>
+        </Alert>
     }
 
     return(
         <>
             {result}
-            <br /><br />
-            <div>
-                <Button
-                    onClick={() => props.setPage(FORM)}
-                >
+            <br />
+            <Button onClick={() => props.setPage(FORM)} >
                 Main Page
-                </Button>
-            </div>
+            </Button>
         </>
     );
 
