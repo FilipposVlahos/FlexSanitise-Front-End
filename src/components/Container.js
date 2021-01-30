@@ -30,10 +30,9 @@ const Container = () => {
     }
 
     return(
-        <>
-            <br />
+        <div>
             {view}
-        </>
+        </div>
     );
 }
 
