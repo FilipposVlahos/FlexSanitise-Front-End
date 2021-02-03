@@ -14,5 +14,8 @@
 }
 
 .body{
-    margin: 25px 50px 50px 100px;
+    width:95%;
+    height:auto;
+    display:inline-block;    
+    text-align:center;
 }
