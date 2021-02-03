@@ -1,9 +1,10 @@
 const axios = require('axios');
 
-function sanitise(text, questions) {
+function sanitise(text, questions, regex) {
     return axios.post("http://127.0.0.1:5000/document", {
         document: text,
-        questions: questions
+        questions: questions,
+        regex: regex
     });
 }
 

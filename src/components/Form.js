@@ -11,6 +11,10 @@ function Form (props) {
     const [text, setText] = useState("");
     const [values, setValues] = useState({ questions: []});
     const { height } = useWindowDimensions();
+    const [dates, setDates] = useState(false);
+    const [days, setDays] = useState(false);
+    const [months, setMonths] = useState(false);
+    const [emails, setEmails] = useState(false);
 
     function createInputs() {
         return values.questions.map((el, i) =>
@@ -42,27 +46,44 @@ function Form (props) {
         setValues({ questions: vals });
     }
 
+    const populateRegex = () => {
+        let regex = [];
+        if (dates) {
+            regex.push("dates");
+        }
+        if (days) {
+            regex.push("days");
+        }
+        if (months) {
+            regex.push("months");
+        }
+        if (emails) {
+            regex.push("emails")
+        } 
+        return regex;
+    }
+
     async function handleSubmit() {
         props.setPage(LOADING);
-        var questions = JSON.stringify(values);
-        console.log(questions)
-        sanitise(text, questions)
+        let questions = JSON.stringify(values);
+        let regex = populateRegex();
+        sanitise(text, questions, regex)
             .then(response => {
                 props.setResponse(response.data.sanitisedDocument);
                 console.log(response.data.sanitisedDocument)
                 props.setPage(RESULT);
             })
             .catch(error => {
+                let showError;
                 if (error.response) {
-                    console.log(error.response.status);
-                    props.setError(error.response.status);
-                } else if (error.request) {
-                    console.log(error.request);
-                    props.setError(error.request);
-                } else {
-                    console.log('Error', error.message);
-                    props.setError(error.message);
+                    console.log(error.response);
+                    showError = "Status code: " + error.respone.status + "\n"
                 }
+                if (error.message) {
+                    console.log('Error', error.message);
+                    showError = showError + error.message;
+                }
+                props.setError(showError);
                 props.setPage(RESULT);
             });
     }
@@ -72,20 +93,33 @@ function Form (props) {
         <div className= "row">
             <div className = "column left">
                 <BootstrapForm.Group controlId="exampleForm.ControlTextarea1">
-                    <BootstrapForm.Label>Text to be Sanitised</BootstrapForm.Label>
+                    <h4>Text to be Sanitised</h4>
                     <BootstrapForm.Control as="textarea" rows={height/35} onChange={e => setText(e.target.value)} required/>
                 </BootstrapForm.Group>
             </ div>
 
-            <div className = "column right">
+            <div className = "column">
+                <div>
+                    <h4>Sanitisations by category</h4>
+                    {["checkbox"].map((type) => (
+                        <div key={`inline-${type}`} className="mb-3">
+                            <BootstrapForm.Check inline label="Dates" type={type} id={`inline-${type}-1`} onChange={e => setDates(!dates)} />
+                            <BootstrapForm.Check inline label="Days" type={type} id={`inline-${type}-3`} onChange={e => setDays(!days)}/>
+                            <BootstrapForm.Check inline label="Months" type={type} id={`inline-${type}-4`} onChange={e => setMonths(!months)}/>
+                            <BootstrapForm.Check inline label="Emails" type={type} id={`inline-${type}-2`} onChange={e => setEmails(!emails)} />
+                        </div>
+                    ))}
+                </div>
+                <hr/>
+                <h4>QA sanitisations</h4>
                 {createInputs()}
-                <br />
-                <Button variant="secondary" onClick={addClick} >
-                    Add Question
-                </Button>
+                <div className="padding">
+                    <Button variant="secondary" onClick={addClick} >
+                        Add Question
+                    </Button>
+                </div>
             </div>
         </div>
-        <br />
         <Button variant="primary" type="submit">
                 Submit
         </Button>
