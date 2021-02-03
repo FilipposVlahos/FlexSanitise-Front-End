@@ -27,7 +27,6 @@ function Result(props) {
             <br/>
             <Button variant="secondary" onClick={downloadTxtFile}>Download</Button>
         </div>;
-        
     } else if (props.error) {
         result =  
         <Alert variant="danger" >
@@ -35,15 +34,15 @@ function Result(props) {
             <p>
                 Error code: {props.error}
             </p>
-        </Alert>
+        </Alert>;
     }
 
     return(
         <>
-            <div className="result">
+            <div className="padding">
                 {result}
             </div>
-            <div className="result">
+            <div className="padding">
                 <Button onClick={() => props.setPage(FORM)} >
                     Main Page
                 </Button>
