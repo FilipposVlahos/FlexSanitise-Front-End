@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import sanitise from "../api/sanitise_api"
 import {Form as BootstrapForm, Button} from 'react-bootstrap';
 import "./Form.css"
+import useWindowDimensions from "../useWindowDimension";
 
 const LOADING = "loading";
 const RESULT = "result";
 
 function Form (props) {
     const [text, setText] = useState("");
-    // const [questions, setQuestions] = useState([]);
     const [values, setValues] = useState({ questions: []});
+    const { height } = useWindowDimensions();
 
     function createInputs() {
         return values.questions.map((el, i) =>
@@ -21,8 +22,6 @@ function Form (props) {
                 <Button variant="danger" onClick={removeClick.bind(i)} >
                     Remove Question {i + 1}
                 </Button>
-                {/* <input type="text" value={el || ''} onChange={handleChange.bind(i)} /> */}
-                {/* <input type='button' value='Remove Question' onClick={removeClick.bind(i)} /> */}
             </div>
         );
     }
@@ -74,7 +73,7 @@ function Form (props) {
             <div className = "column left">
                 <BootstrapForm.Group controlId="exampleForm.ControlTextarea1">
                     <BootstrapForm.Label>Text to be Sanitised</BootstrapForm.Label>
-                    <BootstrapForm.Control as="textarea" rows={18} onChange={e => setText(e.target.value)} required/>
+                    <BootstrapForm.Control as="textarea" rows={height/35} onChange={e => setText(e.target.value)} required/>
                 </BootstrapForm.Group>
             </ div>
 
