@@ -11,7 +11,7 @@ const LOADING = "loading";
 const Container = () => {
     const [page, setPage] = useState(FORM);
     const [response, setResponse] = useState();
-    const [error, setError] = useState();
+    const [error, setError] = useState("");
 
     let view = page;
 

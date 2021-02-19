@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import sanitise from "../api/sanitise_api"
 import {Form as BootstrapForm, Button} from 'react-bootstrap';
-import "./Form.css"
 import useWindowDimensions from "../useWindowDimension";
+import "./Form.css"
 
 const LOADING = "loading";
 const RESULT = "result";
@@ -69,20 +69,24 @@ function Form (props) {
         let regex = populateRegex();
         sanitise(text, questions, regex)
             .then(response => {
-                props.setResponse(response.data.sanitisedDocument);
-                console.log(response.data.sanitisedDocument)
+                props.setResponse(response.data);
+                console.log(response.data.sanitisedDocument + " " + response.data.highlightedDocument);
                 props.setPage(RESULT);
             })
             .catch(error => {
                 let showError;
                 if (error.response) {
-                    console.log(error.response);
-                    showError = "Status code: " + error.respone.status + "\n"
+                    console.log(error.response.Headers)
                 }
                 if (error.message) {
                     console.log('Error', error.message);
-                    showError = showError + error.message;
-                }
+                    showError = error.message;
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request)
+                    showError = error.request;
+                } 
+
                 props.setError(showError);
                 props.setPage(RESULT);
             });
