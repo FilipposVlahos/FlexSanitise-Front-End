@@ -1,12 +1,10 @@
 import React from "react";
-import { Alert, Button, InputGroup, FormControl } from 'react-bootstrap';
-import useWindowDimensions from "../useWindowDimension";
+import { Alert, Button } from 'react-bootstrap';
 import "./Result.css"
 
 const FORM = "form";
 
 function Result(props) {
-    const { height } = useWindowDimensions();
 
     const downloadTxtFile = () => {
         const element = document.createElement("a");
@@ -19,21 +17,21 @@ function Result(props) {
 
     let result;
     if (props.response != null && props.response.sanitisedDocument != null && props.response.highlightedDocument != null) {
-    let highlightedDocument = props.response.highlightedDocument.replace(/(?:\r\n|\r|\n)/g, '<br />');
-        const html = '<div style="text-align:left;">' + highlightedDocument + '</div>';
+        const highlightedDocument = props.response.highlightedDocument.replace(/(?:\r\n|\r|\n)/g, '<br />');
+        const html_highlighted = '<div style="text-align:left;">' + highlightedDocument + '</div>';
+        const sanitisedDocument = props.response.sanitisedDocument.replace(/(?:\r\n|\r|\n)/g, '<br />')
+        const html_sanitised = '<div style="text-align:left;">' + sanitisedDocument + '</div>';
         result = 
         <div>
             <div className="row">
                 <div className="column left">
                     <h4>Sanitised Document</h4>
-                    <InputGroup>
-                        <FormControl as="textarea" aria-label="With textarea" defaultValue={props.response.sanitisedDocument} rows={height/35} id="sanitisedText"/>
-                    </InputGroup>
+                    <div dangerouslySetInnerHTML={{__html: html_sanitised}}></div>
                 </div>
                 <div className="column right">
                     <h4>Highlighted Document</h4>
                     <div>
-                        <div dangerouslySetInnerHTML={{__html: html}}></div>
+                        <div dangerouslySetInnerHTML={{__html: html_highlighted}}></div>
                     </div>
                 </div>
             </div>
