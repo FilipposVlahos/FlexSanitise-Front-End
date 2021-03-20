@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import sanitise from "../api/sanitise_api"
-import {Form as BootstrapForm, Button} from 'react-bootstrap';
+import NamedEntitiesModal from "./NamedEntitiesModal"
+import { sanitise } from "../api/sanitise_api"
+import { Form as BootstrapForm, Button, Badge  } from 'react-bootstrap';
 import useWindowDimensions from "../useWindowDimension";
 import "./Form.css"
+import errorHandling from "../api/error_handling_api"
 
 const LOADING = "loading";
 const RESULT = "result";
@@ -15,6 +17,7 @@ function Form (props) {
     const [days, setDays] = useState(false);
     const [months, setMonths] = useState(false);
     const [emails, setEmails] = useState(false);
+    const [selectedNE, setSelectedNE] = useState([]);
 
     function createInputs() {
         return values.questions.map((el, i) =>
@@ -67,29 +70,23 @@ function Form (props) {
         props.setPage(LOADING);
         let questions = JSON.stringify(values);
         let regex = populateRegex();
-        sanitise(text, questions, regex)
+        sanitise(text, questions, regex, selectedNE)
             .then(response => {
                 props.setResponse(response.data);
-                console.log(response.data.sanitisedDocument + " " + response.data.highlightedDocument);
                 props.setPage(RESULT);
             })
             .catch(error => {
-                let showError;
-                if (error.response) {
-                    console.log(error.response.Headers)
-                }
-                if (error.message) {
-                    console.log('Error', error.message);
-                    showError = error.message;
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    console.log(error.request)
-                    showError = error.request;
-                } 
-
-                props.setError(showError);
+                props.setError(errorHandling(error));
                 props.setPage(RESULT);
             });
+    }
+
+    function createBadges() {
+        return selectedNE.map((el, i) =>
+            <div key={i} >
+                <Badge pill variant="secondary">{el[0]} - {el[1]}</Badge>
+            </div>
+        );
     }
 
     return(
@@ -121,6 +118,12 @@ function Form (props) {
                     <Button variant="secondary" onClick={addClick} >
                         Add Question
                     </Button>
+                </div>
+                <hr />
+                <h4>Named Entity Recognition</h4>
+                <div>
+                    <NamedEntitiesModal text={text} setSelectedNE={setSelectedNE}/>
+                    {createBadges()}
                 </div>
             </div>
         </div>
