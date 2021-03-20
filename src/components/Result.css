@@ -4,6 +4,10 @@
   padding: 1%;
 }
 
+.verticalLine {
+  border-right: 1px dashed black;
+}
+
 .padding {
   padding: 1%;
 }
