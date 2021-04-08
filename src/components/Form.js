@@ -10,21 +10,21 @@ const LOADING = "loading";
 const RESULT = "result";
 
 function Form (props) {
-    const [text, setText] = useState("");
-    const [values, setValues] = useState({ questions: []});
+    const [text, setText] = useState(props.config.text);
+    const [values, setValues] = useState(props.config.values);
+    const [dates, setDates] = useState(props.config.dates);
+    const [days, setDays] = useState(props.config.days);
+    const [months, setMonths] = useState(props.config.months);
+    const [emails, setEmails] = useState(props.config.emails);
+    const [selectedNE, setSelectedNE] = useState(props.config.selectedNE);
     const { height } = useWindowDimensions();
-    const [dates, setDates] = useState(false);
-    const [days, setDays] = useState(false);
-    const [months, setMonths] = useState(false);
-    const [emails, setEmails] = useState(false);
-    const [selectedNE, setSelectedNE] = useState([]);
 
     function createInputs() {
         return values.questions.map((el, i) =>
             <div key={i} >
                 <BootstrapForm.Group controlId="exampleForm.ControlTextarea1">
                     <BootstrapForm.Label>Question {i + 1} </BootstrapForm.Label>
-                    <BootstrapForm.Control as="textarea" rows={1} onChange={handleChange.bind(i)} required />
+                    <BootstrapForm.Control defaultValue={values.questions[i]} as="textarea" rows={1} onChange={handleChange.bind(i)} required />
                 </BootstrapForm.Group>
                 <Button variant="danger" onClick={removeClick.bind(i)} >
                     Remove Question {i + 1}
@@ -45,7 +45,8 @@ function Form (props) {
 
     const removeClick = () => {
         let vals = [...values.questions];
-        vals.splice(this, 1);
+        vals.pop();
+        // vals.splice(this, 1);
         setValues({ questions: vals });
     }
 
@@ -68,6 +69,7 @@ function Form (props) {
 
     async function handleSubmit() {
         props.setPage(LOADING);
+        props.setConfig({"text": text, "values": values, "dates": dates, "days": days, "months": months, "emails": emails, "selectedNE": selectedNE});
         let questions = JSON.stringify(values);
         let regex = populateRegex();
         sanitise(text, questions, regex, selectedNE)
@@ -95,7 +97,7 @@ function Form (props) {
             <div className = "column left">
                 <BootstrapForm.Group controlId="exampleForm.ControlTextarea1">
                     <h4>Text to be Sanitised</h4>
-                    <BootstrapForm.Control as="textarea" rows={height/35} onChange={e => setText(e.target.value)} required/>
+                    <BootstrapForm.Control as="textarea" defaultValue={text} rows={height/35} onChange={e => setText(e.target.value)} required/>
                 </BootstrapForm.Group>
             </ div>
 
@@ -104,26 +106,26 @@ function Form (props) {
                     <h4>Sanitisations by category</h4>
                     {["checkbox"].map((type) => (
                         <div key={`inline-${type}`} className="mb-3">
-                            <BootstrapForm.Check inline label="Dates" type={type} id={`inline-${type}-1`} onChange={e => setDates(!dates)} />
-                            <BootstrapForm.Check inline label="Days" type={type} id={`inline-${type}-3`} onChange={e => setDays(!days)}/>
-                            <BootstrapForm.Check inline label="Months" type={type} id={`inline-${type}-4`} onChange={e => setMonths(!months)}/>
-                            <BootstrapForm.Check inline label="Emails" type={type} id={`inline-${type}-2`} onChange={e => setEmails(!emails)} />
+                            <BootstrapForm.Check inline label="Dates" defaultChecked={dates} type={type} id={`inline-${type}-1`} onChange={e => setDates(!dates)} />
+                            <BootstrapForm.Check inline label="Days" defaultChecked={days} type={type} id={`inline-${type}-3`} onChange={e => setDays(!days)}/>
+                            <BootstrapForm.Check inline label="Months" defaultChecked={months} type={type} id={`inline-${type}-4`} onChange={e => setMonths(!months)}/>
+                            <BootstrapForm.Check inline label="Emails" defaultChecked={emails} type={type} id={`inline-${type}-2`} onChange={e => setEmails(!emails)} />
                         </div>
                     ))}
                 </div>
                 <hr/>
+                <h4>Named Entity Recognition</h4>
+                <div>
+                    <NamedEntitiesModal text={text} setSelectedNE={setSelectedNE}/>
+                    {createBadges()}
+                </div>
+                <hr />
                 <h4>QA sanitisations</h4>
                 {createInputs()}
                 <div className="padding">
                     <Button variant="secondary" onClick={addClick} >
                         Add Question
                     </Button>
-                </div>
-                <hr />
-                <h4>Named Entity Recognition</h4>
-                <div>
-                    <NamedEntitiesModal text={text} setSelectedNE={setSelectedNE}/>
-                    {createBadges()}
                 </div>
             </div>
         </div>
