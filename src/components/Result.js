@@ -54,10 +54,16 @@ function Result(props) {
                 {Result}
             </div>
             <div className="padding">
-                <Button onClick={() => props.setPage(FORM)} >
+                <Button variant="info" onClick={() => {props.setPage(FORM);}}>
+                    Edit Config
+                </Button>
+            </div>
+            <div className="padding">
+                <Button onClick={() => { props.setConfig({ "text": "", "values": { questions: [] }, "dates": false, "days": false, "months": false, "emails": false, "selectedNE": [] }); props.setPage(FORM); }} >
                     Main Page
                 </Button>
             </div>
+
         </>
     );
 

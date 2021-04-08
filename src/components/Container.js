@@ -12,26 +12,25 @@ const Container = () => {
     const [page, setPage] = useState(FORM);
     const [response, setResponse] = useState();
     const [error, setError] = useState("");
+    const [config, setConfig] = useState({ "text": "", "values": { questions: [] }, "dates": false, "days": false, "months": false, "emails": false, "selectedNE": [] });
 
-    let view = page;
-
-    switch (page) {
-        case FORM:
-            view = <Form setPage={setPage} setResponse={setResponse} setError={setError} />
-            break;
-        case RESULT:
-            view = <Result response={response} error={error} setPage={setPage} />
-            break;
-        case LOADING:
-            view = <BoxLoading size="large"/>;
-            break;
-        default:
-            view = "This should not have happened"
+    function pageToDisplay() {
+        switch (page) {
+            case FORM:
+                console.log("Config: " + config +  " Config text: " +  config.text);
+                return (<Form setPage={setPage} setResponse={setResponse} setError={setError} setConfig={setConfig} config={config} />);
+            case RESULT:
+                return (<Result response={response} error={error} setPage={setPage} setConfig={setConfig} />)
+            case LOADING:
+                return(<BoxLoading size="large"/>);
+            default:
+                return("This should not have happened");
+        }
     }
 
     return(
         <div>
-            {view}
+            {pageToDisplay()}
         </div>
     );
 }
