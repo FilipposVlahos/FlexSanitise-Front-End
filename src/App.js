@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>
-          Text Sanitiser
+          AutoSanitise
         </h1>
       </header>
       <div className="body">
