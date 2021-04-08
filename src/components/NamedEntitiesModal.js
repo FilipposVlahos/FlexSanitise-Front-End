@@ -63,7 +63,6 @@ function NamedEntitiesModal(props) {
     
     const ModalBody = () => {
         if (responseReceived && namedEntities.length > 0) {
-            console.log(values.checked)
             return (
                 <div>
                     {createCheckboxes()}
