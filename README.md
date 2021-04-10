@@ -1,7 +1,7 @@
 
 # FlexSanitise Front-End
 
-This is the front-end of [FlexSanitise](https://github.com/FilipposVlahos/https://github.com/FilipposVlahos/FlexSanitise) API developed as part of my 3rd year project for my BSc in Computer Science at the University of Manchester.
+This is the front-end of [FlexSanitise](https://github.com/FilipposVlahos/FlexSanitise) API developed as part of my 3rd year project for my BSc in Computer Science at the University of Manchester.
 
 ## Install dependencies
 
