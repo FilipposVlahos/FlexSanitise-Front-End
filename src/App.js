@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>
-          AutoSanitise
+          FlexSanitise
         </h1>
       </header>
       <div className="body">

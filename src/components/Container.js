@@ -17,7 +17,6 @@ const Container = () => {
     function pageToDisplay() {
         switch (page) {
             case FORM:
-                console.log("Config: " + config +  " Config text: " +  config.text);
                 return (<Form setPage={setPage} setResponse={setResponse} setError={setError} setConfig={setConfig} config={config} />);
             case RESULT:
                 return (<Result response={response} error={error} setPage={setPage} setConfig={setConfig} />)
