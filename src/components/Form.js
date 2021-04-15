@@ -103,7 +103,7 @@ function Form (props) {
 
             <div className = "column">
                 <div>
-                    <h4>Sanitisations by category</h4>
+                    <h4>Sanitisations by category (regex)</h4>
                     {["checkbox"].map((type) => (
                         <div key={`inline-${type}`} className="mb-3">
                             <BootstrapForm.Check inline label="Dates" defaultChecked={dates} type={type} id={`inline-${type}-1`} onChange={e => setDates(!dates)} />
